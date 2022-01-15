@@ -1,0 +1,49 @@
+require:
+ - rubocop-performance
+ - rubocop-rails
+ - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - vendor/**/*
+    - db/**/*
+    - script/**/*
+    - bin/**/*
+
+Layout/LineLength:
+  Max: 100
+  Exclude:
+    - config/**/*
+
+
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - spec/**/*
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 5
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+    - if
+    - unless
+    - for
+    - of
+
+RSpec/EmptyLineAfterSubject:
+  Exclude:
+    - spec/factories/*
