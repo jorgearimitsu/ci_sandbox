@@ -24,8 +24,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby and install gems
-        run: bundle install
+      - name: Setup ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
       - name: Run RuboCop
         run: bundle exec rubocop --parallel
