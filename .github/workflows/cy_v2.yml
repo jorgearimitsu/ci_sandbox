@@ -7,7 +7,7 @@ jobs:
   verify:
     name: Check the code
     runs-on: ubuntu-latest
-    container: ruby:3.0.2
+    container: ruby:3.0.1
 
     services:
       redis:
