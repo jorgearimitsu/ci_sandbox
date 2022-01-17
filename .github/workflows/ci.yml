@@ -28,6 +28,9 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Setup DB
+        run: bundle exec rake db:setup
+
       - name: Run RuboCop
         run: bundle exec rubocop --parallel
 
@@ -35,4 +38,3 @@ jobs:
         run: bundle exec rspec
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://ci_sandbox:password@postgres/ci_sandbox_test
