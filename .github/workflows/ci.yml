@@ -6,7 +6,6 @@ jobs:
   verify:
     name: Verify Code
     runs-on: ubuntu-latest
-    container: ruby:3.0.1
 
     services:
       postgres:
@@ -35,5 +34,6 @@ jobs:
       - name: Run Tests
         run: bundle exec rspec
         env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://ci_sandbox:password@postgres/ci_sandbox_test
+          DB_HOST: localhost
+          DB_USERNAME: ci_sandbox
+          DB_PASSWORD: password
