@@ -1,0 +1,49 @@
+---
+name: CI v2
+
+on: push
+
+jobs:
+  verify:
+    name: Check the code
+    runs-on: ubuntu-latest
+    container: ruby:3.0.2
+
+    services:
+      redis:
+        image: 'redis'
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Send the Cops
+        run: bundle exec rubocop --parallel
+
+      - name: Test
+        run: bundle exec rspec
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://ci:password@postgres/ci_sandbox_test
+          REDIS_URL: redis://redis:6379/1
+          DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
